@@ -1,0 +1,46 @@
+{% extends 'loan/base.html' %}
+
+{% block content %}
+<div class="card" style="text-align: center; padding: 45px 30px;">
+    <!-- Checkmark Badge Icon -->
+    <div style="width: 70px; height: 70px; background: #e6f4ea; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+    </div>
+
+    <h2 style="color: var(--dark-navy); font-size: 24px; margin-bottom: 10px;">Application Submitted!</h2>
+
+    <p style="color: #555; font-size: 14px; line-height: 1.6; margin-bottom: 25px;">
+        Thank you for choosing <strong>EcoCash</strong>. Your loan application has been received and is currently under review.
+    </p>
+
+    <!-- Information Box -->
+    <div style="background: #f8fafe; border: 1.5px solid #d0e0ff; border-radius: 10px; padding: 20px; text-align: left; margin-bottom: 25px;">
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <span style="font-size: 18px;">⏱️</span>
+            <div>
+                <strong style="color: var(--dark-navy); font-size: 13px; display: block; margin-bottom: 2px;">Processing Time</strong>
+                <span style="font-size: 13px; color: #555;">The loan verification and approval process takes up to <strong>24 hours</strong>.</span>
+            </div>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 12px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+            <span style="font-size: 18px;">📧</span>
+            <div>
+                <strong style="color: var(--dark-navy); font-size: 13px; display: block; margin-bottom: 2px;">Next Steps via Email</strong>
+                <span style="font-size: 13px; color: #555;">We will email you at <strong style="color: var(--primary-blue);">{{ email }}</strong> with the outcome and detailed instructions for the next steps.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Ref Summary -->
+    <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 25px;">
+        Requested Amount: <strong>${{ amount }}</strong> &nbsp;|&nbsp; Term: <strong>{{ term }} Months</strong>
+    </div>
+
+    <a href="{% url 'calculator' %}" style="text-decoration: none;">
+        <button type="button" class="btn-primary">RETURN TO HOME</button>
+    </a>
+</div>
+{% endblock %}

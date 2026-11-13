@@ -1,0 +1,39 @@
+{% extends 'loan/base.html' %}
+
+{% block content %}
+
+<div class="card">
+
+    <div class="card-header">
+        <h2>Verification Not Approved</h2>
+
+        <p>
+            Your verification request was not approved.
+        </p>
+    </div>
+
+    <div style="
+        text-align:center;
+        padding:25px;
+    ">
+
+        <div style="
+            font-size:45px;
+            margin-bottom:15px;
+        ">
+            ❌
+        </div>
+
+        <a
+            href="{% url 'login' %}"
+            class="btn-primary"
+            style="display:inline-block;text-decoration:none;"
+        >
+            TRY AGAIN
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

